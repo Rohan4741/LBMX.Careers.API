@@ -6,6 +6,7 @@ const JobPosting = new mongoose.Schema(
       type: String,
       unique: true,
     },
+    employeeId: String, //new string field for searching through employeeId
     title: String,
     blurb: String,
     jobCode: String,

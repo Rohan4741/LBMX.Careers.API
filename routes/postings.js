@@ -3,7 +3,12 @@ const mongoose = require('mongoose');
 const router = express.Router();
 
 const JobPostingSchema = require('../schemas/job-posting');
+
+mongoose.connect("mongodb://127.0.0.1:27017/careers",{ useNewUrlParser: true, useUnifiedTopology: true });
+ 
+
 const JobPosting = mongoose.model('posting', JobPostingSchema);
+
 
 /* POST create posting */
 router.post('/', function (req, res, next) {
@@ -15,6 +20,18 @@ router.post('/', function (req, res, next) {
     }
   });
 });
+
+/* PUT updating posting */
+router.put('/:postingId', function (req, res, next) {
+  JobPosting.updateOne({'postingId':req.params.postingId}, req.body,function (err, posting) {
+    if (err) {
+      res.status(500).json({ error: err });
+    } else {
+      res.status(200).json({ posting: posting._id });
+    }
+  });
+});
+
 
 /* GET list all job postings */
 router.get('/', function (req, res, next) {
